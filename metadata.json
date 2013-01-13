@@ -1,1 +1,1 @@
-{"shell-version": ["3.6.2"], "uuid": "DisplayKeyboardLayout@sensey.com", "name": "Display keyboard layout", "description": "Display country flag for current layout"}
+{"shell-version": ["3.2","3.4","3.6"], "uuid": "DisplayKeyboardLayout@sensey.com", "name": "Display keyboard layout", "description": "Display country flag for current layout"}

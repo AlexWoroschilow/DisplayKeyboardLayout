@@ -3,7 +3,7 @@ const Lang 		= imports.lang;
 const Gio 		= imports.gi.Gio;
 const Main 		= imports.ui.main;
 const Gkbd 		= imports.gi.Gkbd;
-const Tweener 	= imports.ui.tweener;
+const Tweener   = imports.ui.tweener;
 const PanelMenu = imports.ui.panelMenu;
 const Meta 		= imports.gi.Meta;
 
@@ -20,13 +20,12 @@ DisplayKeyboardLayout.prototype = {
     config: null,
 
     _init: function (meta) {
-
-      this.meta = meta;
-
+      
+      this.meta   = meta;
       this.config = Gkbd.Configuration.get();
-      this.config.connect('changed', 		Lang.bind(this, this.doDisplayLayout));
-      this.config.connect('group-changed', 	Lang.bind(this, this.doDisplayLayout));
-      this.config.start_listen();
+      
+      this.config.connect('changed',        Lang.bind(this, this.doDisplayLayout));
+      this.config.connect('group-changed',  Lang.bind(this, this.doDisplayLayout));
     },
 
     doDisplayLayout: function (display, screen, window, binding) {
@@ -60,11 +59,14 @@ DisplayKeyboardLayout.prototype = {
     },
 
     enable: function () {
-
+      
+      this.config.start_listen();
+      
     },
 
     disable: function () {
-
+      
+      this.config.stop_listen();
     }
 };
 

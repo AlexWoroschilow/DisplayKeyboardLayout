@@ -1,5 +1,5 @@
 
-.display-keyboard-layout-text {
+.keyboard-layout-flag-text {
     font-size: 56px;
     font-weight: bold;
     color: #ffffff;
@@ -8,7 +8,12 @@
     padding: .5em;
 }
 
-
-.display-keyboard-layout-image {
+.keyboard-layout-flag-image {
 
 }
+
+.keyboard-layout-flag-icon {
+
+}
+
+

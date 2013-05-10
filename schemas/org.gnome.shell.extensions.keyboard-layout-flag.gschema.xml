@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="keyboard-layout-flag">
+
+  <schema id="org.gnome.shell.extensions.keyboard-layout-flag" path="/org/gnome/shell/extensions/keyboard-layout-flag/">
+  
+    <key type="b" name="control-show-on-panel">
+      <default>true</default>
+      <summary>Show flag image on top panel</summary>
+    </key>
+    <key type="b" name="control-show-on-screen">
+      <default>true</default>
+      <summary>Show flag image on Screen</summary>
+    </key>
+    
+    <key type="i" name="control-size-on-panel">
+      <default>30</default>
+      <summary>Flag image size on top Panel</summary>
+    </key>
+    
+    <key type="i" name="control-size-on-screen">
+      <default>500</default>
+      <summary>Flag image size on Screen</summary>
+    </key>
+    
+    <key type="i" name="control-opacity-on-panel">
+      <default>300</default>
+      <summary>Icon image opacity on Panel</summary>
+    </key>
+    
+    <key type="i" name="control-opacity-on-screen">
+      <default>300</default>
+      <summary>Flag image opacity on Screen</summary>
+    </key>
+    
+    <key type="i" name="control-opacity-on-tween">
+      <default>0</default>
+      <summary>Tween opacity</summary>
+    </key>
+    
+    <key type="i" name="control-time-on-tween">
+      <default>1</default>
+      <summary>Time in seconds</summary>
+    </key>
+    
+    
+    
+  </schema>
+</schemalist>

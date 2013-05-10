@@ -36,7 +36,14 @@ KeyboardLayoutIcon.prototype = {
 			);
 		},
 
-		isEnabled: function () {
+		onChangedStatus: function (isEnabled) {
+
+			if(!isEnabled) {
+
+				Main.panel._rightBox.remove_child(this._element);
+
+				return true;
+			}
 
 			if(Convenience.getSettings().get_boolean('control-show-on-panel')) {
 
@@ -46,7 +53,6 @@ KeyboardLayoutIcon.prototype = {
 				this.onChanged();
 
 				return true;
-
 			}
 
 			Main.panel._rightBox.remove_child(this._element);

@@ -56,15 +56,17 @@ KeyboardLayoutFlag.prototype = {
 			);
 		},
 
-		isEnabled: function () {
+		onChangedStatus: function (isEnabled) {
 
 			return Convenience.getSettings().get_boolean('control-show-on-screen');
 		},
 
 
 		onChanged: function () {
-
-			if(this.isEnabled ()) {
+			
+			// TODO: remove this, fucking magick,
+			// not working correct without this condition
+			if(this.onChangedStatus (true)) {
 
 				this._iconImage 	= this._image();
 				this._iconClass 	= 'keyboard-layout-flag-image',

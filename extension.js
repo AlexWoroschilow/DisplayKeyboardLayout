@@ -34,7 +34,7 @@ keyboardLayoutIndicator.prototype = {
 
 				(function (extension) {
 					
-					if(extension.isEnabled()) {
+					if(extension.onChangedStatus(true)) {
 
 						Gkbd.Configuration.get().connect('changed',        Lang.bind(extension, extension.onChanged));
 						Gkbd.Configuration.get().connect('group-changed',  Lang.bind(extension, extension.onChanged));
@@ -48,6 +48,19 @@ keyboardLayoutIndicator.prototype = {
 
 		disable: function () {
 
+			for(var element in this._elements) {
+				
+				(function (extension) {
+					
+					if(extension.onChangedStatus(false)) {
+						
+						// TODO: ...
+						
+					}
+					
+				})(this._elements[element]);
+			}
+			
 			Gkbd.Configuration.get().stop_listen();
 		}
 };

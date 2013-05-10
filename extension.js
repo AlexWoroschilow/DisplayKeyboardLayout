@@ -36,8 +36,8 @@ keyboardLayoutIndicator.prototype = {
 		
 		if(this._elements) {
 			
-			for(var test in this._elements) {
-				this._elements[test].enable();
+			for(var element in this._elements) {
+				this._elements[element].enable();
 			}
 		}
 	},

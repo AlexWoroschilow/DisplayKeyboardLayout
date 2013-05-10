@@ -15,80 +15,56 @@ function KeyboardLayoutIcon(parameters) {
 
 KeyboardLayoutIcon.prototype = {
 
-		_iconSize: 30,
-		_iconImage: null,
-		_iconOpacity: 300,
-		_iconClass: 'keyboard-layout-flag-icon',
-		_config: Gkbd.Configuration.get(),
-
 		_element: new St.Bin({ }),
+
+		_config: Gkbd.Configuration.get(),
 
 		_init: function (parameters) {
 
-			this._onRefresh();
-			this._onChange();
 		},
 
-		_getImage: function () {
+		_image: function () {
 
-			var language = this._config.get_group_name(
-					this._config.get_current_group()    		  
+			var config = Gkbd.Configuration.get();
+
+			var filename = config.get_group_name(
+					config.get_current_group()    		  
 			);
 
 			return Gio.icon_new_for_string(
-					this._getPathDefault() + "/icons/" + language + ".svg"
+					Me.dir.get_path() + "/icons/" + filename + ".svg"
 			);
 		},
 
-		_settings: function () {
-			return Convenience.getSettings();
-		},    
+		isEnabled: function () {
 
-		_getPathDefault: function ( ) {
-			return Me.dir.get_path();
-		},
+			if(Convenience.getSettings().get_boolean('control-show-on-panel')) {
 
-		_onRefresh: function () {
-			this._iconImage 	= this._getImage();
-			this._iconSize  	= this._settings().get_int('control-size-on-panel');
-			this._iconOpacity 	= this._settings().get_int('control-opacity-on-panel');
-		},
+				Main.panel._rightBox.insert_child_at_index(this._element,  
+						Main.panel._rightBox.get_children().length-1);
 
-		_onChange: function () {
-			
-			if(!this.isEnabled ()) {
-				
-				return Main.panel._rightBox.remove_child(this._element);
+				this.onChanged();
+
+				return true;
+
 			}
-			
+
+			Main.panel._rightBox.remove_child(this._element);
+
+			return false;
+		},
+
+		onChanged: function () {
+
+			this._iconClass 	= 'keyboard-layout-flag-icon',
+			this._iconSize 		= Convenience.getSettings().get_int('control-size-on-panel');
+			this._iconOpacity 	= Convenience.getSettings().get_int('control-opacity-on-panel');
+
 			this._element.set_child(new St.Icon({
-				gicon: 		 this._iconImage,
+				gicon: 		 this._image(),
 				opacity: 	 this._iconOpacity, 					
 				icon_size: 	 this._iconSize,
 				style_class: this._iconClass 
 			}));
-			
-			return Main.panel._rightBox.insert_child_at_index(this._element, 0);
-			
-		},
-		
-		isEnabled: function () {
-			return this._settings().get_boolean('control-show-on-panel');
-		},
-
-		enable: function () {
-
-			this._config.connect('changed',        Lang.bind(this, this._onRefresh));
-			this._config.connect('group-changed',  Lang.bind(this, this._onRefresh));
-
-			this._config.connect('changed',        Lang.bind(this, this._onChange));
-			this._config.connect('group-changed',  Lang.bind(this, this._onChange));
-
-			this._config.start_listen();
-		},
-
-		disable: function () {
-
-			this._config.stop_listen();
-		} 
+		}
 };

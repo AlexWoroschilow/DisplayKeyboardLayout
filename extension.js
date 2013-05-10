@@ -17,39 +17,39 @@ function keyboardLayoutIndicator (parameters) {
 }
 
 keyboardLayoutIndicator.prototype = {	
-	
-	_elements: undefined,
-	
-	_init: function (parameters) {
-		
-		this._elements = {
-			flag: new Flag.KeyboardLayoutFlag(parameters),
-			icon: new Icon.KeyboardLayoutIcon(parameters) 
-		};
-	},
-	
-	_settings: function () {
-		return Convenience.getSettings();
-	},
-	
-	enable: function () {
-		
-		if(this._elements) {
-			
+
+		_elements: undefined,
+
+		_init: function (parameters) {
+
+			this._elements = {
+				icon: new Icon.KeyboardLayoutIcon(parameters), 
+				flag: new Flag.KeyboardLayoutFlag(parameters)
+			};
+		},
+
+		enable: function () {
+
 			for(var element in this._elements) {
-				this._elements[element].enable();
+
+				(function (extension) {
+					
+					if(extension.isEnabled()) {
+
+						Gkbd.Configuration.get().connect('changed',        Lang.bind(extension, extension.onChanged));
+						Gkbd.Configuration.get().connect('group-changed',  Lang.bind(extension, extension.onChanged));
+					}
+
+				})(this._elements[element]);
 			}
+
+			Gkbd.Configuration.get().start_listen();
+		},
+
+		disable: function () {
+
+			Gkbd.Configuration.get().stop_listen();
 		}
-	},
-	
-	disable: function () {
-		if(this._elements) {
-			
-			for(var element in this._elements) {
-				this._elements[element].disable();
-			}
-		}
-	}
 };
 
 function init() {

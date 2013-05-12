@@ -1,76 +1,50 @@
 const St 			= imports.gi.St;
-const Lang 			= imports.lang;
-const Gio 			= imports.gi.Gio;
-const Main 			= imports.ui.main;
-const Gkbd 			= imports.gi.Gkbd;
-const Tweener   	= imports.ui.tweener;
-const PanelMenu		= imports.ui.panelMenu;
 const Me 			= imports.misc.extensionUtils.getCurrentExtension();
-const Convenience 	= Me.imports.convenience;
+const Prefs			= Me.imports.convenience.getSettings();
+const Helper 		= Me.imports.helper;
 
 function KeyboardLayoutIcon(parameters) {
-
 	this._init(parameters);
 };
 
 KeyboardLayoutIcon.prototype = {
 
-		_element: new St.Bin({ }),
-
-		_config: Gkbd.Configuration.get(),
+		_ui: 			undefined,
+		_iconClass: 	undefined,
+		_iconSize: 		undefined,
+		_iconOpacity: 	undefined,
 
 		_init: function (parameters) {
-
+			this._iconClass 	= 'keyboard-layout-flag-icon',
+			this._iconSize 		= Prefs.get_int('control-size-on-panel');
+			this._iconOpacity 	= Prefs.get_int('control-opacity-on-panel');
+			this._isEnabled		= Prefs.get_boolean('control-show-on-panel');
 		},
 
-		_image: function () {
-
-			var config = Gkbd.Configuration.get();
-
-			var filename = config.get_group_name(
-					config.get_current_group()    		  
-			);
-
-			return Gio.icon_new_for_string(
-					Me.dir.get_path() + "/icons/" + filename + ".svg"
-			);
+		_icon: function () {
+			return new St.Icon({
+				gicon: 		 (new Helper.Keyboard()).getLayoutImage(),
+				icon_size: 	 this._iconSize,
+				style_class: this._iconClass, 
+				opacity: 	 this._iconOpacity, 					
+			});			
 		},
 
-		onChangedStatus: function (isEnabled) {
-
-			if(!isEnabled) {
-
-				Main.panel._rightBox.remove_child(this._element);
-
-				return true;
+		ui: function () {
+			if(!this._ui) {
+				this._ui = new St.Bin({ });
+				if(this._isEnabled) {
+					this._ui.set_child (this._icon());
+				}
 			}
-
-			if(Convenience.getSettings().get_boolean('control-show-on-panel')) {
-
-				Main.panel._rightBox.insert_child_at_index(this._element,  
-						Main.panel._rightBox.get_children().length-1);
-
-				this.onChanged();
-
-				return true;
-			}
-
-			Main.panel._rightBox.remove_child(this._element);
-
-			return false;
+			return this._ui;			
 		},
 
 		onChanged: function () {
-
-			this._iconClass 	= 'keyboard-layout-flag-icon',
-			this._iconSize 		= Convenience.getSettings().get_int('control-size-on-panel');
-			this._iconOpacity 	= Convenience.getSettings().get_int('control-opacity-on-panel');
-
-			this._element.set_child(new St.Icon({
-				gicon: 		 this._image(),
-				opacity: 	 this._iconOpacity, 					
-				icon_size: 	 this._iconSize,
-				style_class: this._iconClass 
-			}));
+			if(this._isEnabled) {
+				if(this.ui()) {
+					this.ui().set_child(this._icon());
+				}
+			}
 		}
 };

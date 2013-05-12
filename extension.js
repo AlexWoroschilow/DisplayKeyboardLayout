@@ -1,12 +1,7 @@
-const St 		  	= imports.gi.St;
 const Lang 		  	= imports.lang;
-const Gio 		  	= imports.gi.Gio;
-const Main 		  	= imports.ui.main;
 const Gkbd 		  	= imports.gi.Gkbd;
-const Tweener     	= imports.ui.tweener;
-const PanelMenu   	= imports.ui.panelMenu;
 const Me 		  	= imports.misc.extensionUtils.getCurrentExtension();
-const Convenience 	= Me.imports.convenience;
+const Panel			= imports.ui.main.panel;
 
 const Icon = Me.imports.icon;
 const Flag = Me.imports.flag;
@@ -18,54 +13,43 @@ function keyboardLayoutIndicator (parameters) {
 
 keyboardLayoutIndicator.prototype = {	
 
-		_elements: undefined,
+		icon: undefined,
+		flag: undefined,
 
-		_init: function (parameters) {
+		_init: function (parameters) { 
+			
+		},
 
-			this._elements = {
-				icon: new Icon.KeyboardLayoutIcon(parameters), 
-				flag: new Flag.KeyboardLayoutFlag(parameters)
-			};
+		_index: function () {
+			return Panel._rightBox.get_children().length - 1;			
 		},
 
 		enable: function () {
+			this.icon = new Icon.KeyboardLayoutIcon({ });
+			this.flag = new Flag.KeyboardLayoutFlag({ }); 
 
-			for(var element in this._elements) {
+			Panel._rightBox.insert_child_at_index(this.flag.ui(), this._index());
+			Panel._rightBox.insert_child_at_index(this.icon.ui(), this._index());
 
-				(function (extension) {
-					
-					if(extension.onChangedStatus(true)) {
+			Gkbd.Configuration.get().connect('changed',        Lang.bind(this.icon, this.icon.onChanged));
+			Gkbd.Configuration.get().connect('group-changed',  Lang.bind(this.icon, this.icon.onChanged));
 
-						Gkbd.Configuration.get().connect('changed',        Lang.bind(extension, extension.onChanged));
-						Gkbd.Configuration.get().connect('group-changed',  Lang.bind(extension, extension.onChanged));
-					}
-
-				})(this._elements[element]);
-			}
+			Gkbd.Configuration.get().connect('changed',        Lang.bind(this.flag, this.flag.onChanged));
+			Gkbd.Configuration.get().connect('group-changed',  Lang.bind(this.flag, this.flag.onChanged));
 
 			Gkbd.Configuration.get().start_listen();
 		},
 
 		disable: function () {
-
-			for(var element in this._elements) {
-				
-				(function (extension) {
-					
-					if(extension.onChangedStatus(false)) {
-						
-						// TODO: ...
-						
-					}
-					
-				})(this._elements[element]);
-			}
+			Panel._rightBox.remove_child(this.flag.ui());
+			Panel._rightBox.remove_child(this.icon.ui());
 			
 			Gkbd.Configuration.get().stop_listen();
+			
+			delete this.flag, this.icon;
 		}
 };
 
 function init() {
-
 	return new keyboardLayoutIndicator({ });
 }

@@ -20,11 +20,20 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="margin_left">36</property>
-        <property name="n_rows">5</property>
+        <property name="n_rows">6</property>
         <property name="n_columns">4</property>
         <property name="column_spacing">10</property>
         <property name="row_spacing">20</property>
         <property name="homogeneous">True</property>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
         <child>
           <object class="GtkSpinButton" id="control-size-on-panel">
             <property name="visible">True</property>
@@ -201,18 +210,6 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
           <object class="GtkLabel" id="label-opacity-on-tween">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -269,6 +266,22 @@
             <property name="x_options">GTK_EXPAND | GTK_SHRINK</property>
             <property name="y_options">GTK_EXPAND | GTK_SHRINK</property>
           </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">You have to reload Gnome-Shell to apply changes. To reaload press Alt + F2 type 'r' and press Enter</property>
+            <property name="justify">right</property>
+          </object>
+          <packing>
+            <property name="right_attach">4</property>
+            <property name="top_attach">5</property>
+            <property name="bottom_attach">6</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
       <packing>

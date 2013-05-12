@@ -25,14 +25,14 @@ KeyboardLayoutFlag.prototype = {
 		_iconY: 		undefined,
 
 		_init: function (parameters) {
-			this._iconClass		= 'keyboard-layout-flag-image';
-			this._iconSize 		= Prefs.get_int('control-size-on-screen');
-			this._iconOpacity 	= Prefs.get_int('control-opacity-on-screen');
-			this._tweenTime 	= Prefs.get_int('control-time-on-tween');
-			this._tweenOpacity 	= Prefs.get_int('control-opacity-on-tween');
-			this._isEnabled		= Prefs.get_boolean('control-show-on-screen');
-			this._iconX = Math.floor(this._center(Monitor.width, this._iconSize));
-			this._iconY = Math.floor(this._center(Monitor.height, this._iconSize));
+			this._iconClass		= parameters.iconClass;
+			this._iconSize 		= parameters.iconSize;
+			this._iconOpacity 	= parameters.iconOpacity;
+			this._tweenTime 	= parameters.tweenTime;
+			this._tweenOpacity 	= parameters.tweenOpacity;
+			this._isEnabled		= parameters.isEnabled;
+			this._iconX 		= parameters.iconX;
+			this._iconY 		= parameters.iconY;
 		},
 
 		_center: function (length1, length2) {
@@ -54,7 +54,7 @@ KeyboardLayoutFlag.prototype = {
 						time: 		that._tweenTime,
 						opacity: 	that._tweenOpacity,
 						onComplete: function () {
-							Main.uiGroup.remove_actor(flag );
+							Main.uiGroup.remove_actor(flag);
 						}
 					});
 				}

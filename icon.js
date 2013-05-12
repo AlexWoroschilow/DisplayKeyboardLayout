@@ -15,10 +15,10 @@ KeyboardLayoutIcon.prototype = {
 		_iconOpacity: 	undefined,
 
 		_init: function (parameters) {
-			this._iconClass 	= 'keyboard-layout-flag-icon',
-			this._iconSize 		= Prefs.get_int('control-size-on-panel');
-			this._iconOpacity 	= Prefs.get_int('control-opacity-on-panel');
-			this._isEnabled		= Prefs.get_boolean('control-show-on-panel');
+			this._iconClass 	= parameters.iconClass;
+			this._iconSize 		= parameters.iconSize;
+			this._iconOpacity 	= parameters.iconOpacity;
+			this._isEnabled		= parameters.isEnabled;
 		},
 
 		_icon: function () {
